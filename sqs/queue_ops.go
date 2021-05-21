@@ -18,7 +18,11 @@ func getQueueProps(q Queue) (*sqs.SQS, string) {
 	)
 	svc := sqs.New(sess)
 
-	url, _ := svc.GetQueueUrl(&sqs.GetQueueUrlInput{QueueName: &q.Name})
+	url, err := svc.GetQueueUrl(&sqs.GetQueueUrlInput{QueueName: &q.Name})
+
+	if err != nil {
+		return svc, ""
+	}
     
 	return svc, *url.QueueUrl
 }
