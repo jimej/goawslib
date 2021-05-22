@@ -17,7 +17,11 @@ func getQueueProps(q Queue) (*sqs.SQS, string) {
 		Region: aws.String(q.Region)},
 	)
 	svc := sqs.New(sess)
-
+    
+	if q.Name == "" {
+		return svc, ""
+	}
+	
 	url, err := svc.GetQueueUrl(&sqs.GetQueueUrlInput{QueueName: &q.Name})
 
 	if err != nil {
